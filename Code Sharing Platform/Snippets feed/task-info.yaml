@@ -473,6 +473,21 @@ files:
 - name: src/resources/templates/snippet_page.ftlh
   visible: true
   learner_created: true
+- name: src/resources/templates/code_new.ftlh
+  visible: true
+  learner_created: true
+- name: src/resources/templates/snippet_page_latest.ftlh
+  visible: true
+  learner_created: true
+- name: src/resources/static/style.css
+  visible: true
+  learner_created: true
+- name: src/resources/static/XLMHttpRequest.js
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/130/stages/694/implement#comment
-status: Unchecked
+status: Failed
+feedback:
+  message: Cannot invoke &quot;String.length()&quot; because &quot;s&quot; is null
+  time: Wed, 30 Dec 2020 08:44:15 UTC
 record: -1

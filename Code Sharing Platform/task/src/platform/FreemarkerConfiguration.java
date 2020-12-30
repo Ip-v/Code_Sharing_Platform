@@ -3,13 +3,12 @@ package platform;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateExceptionHandler;
 import org.springframework.stereotype.Component;
-
 import java.io.File;
 
 @Component
 public class FreemarkerConfiguration {
-    public String TemplatesFolder = "/resources/templates";
-    Configuration cfg;
+    public String TemplatesFolder = "./Code Sharing Platform/task/src/resources/templates";
+    static Configuration  cfg;
 
     public FreemarkerConfiguration() {
         //Freemarker cfg
@@ -25,4 +24,9 @@ public class FreemarkerConfiguration {
         cfg.setWrapUncheckedExceptions(true);
         cfg.setFallbackOnNullLoopVariable(false);
     }
+
+    public Configuration getCfg(){
+        return cfg;
+    }
+
 }
