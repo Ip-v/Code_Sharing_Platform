@@ -7,7 +7,7 @@ import java.io.File;
 
 @Component
 public class FreemarkerConfiguration {
-    public String TemplatesFolder = "./Code Sharing Platform/task/src/resources/templates";
+    public String TemplatesFolder = "C:\\Users\\Ivan\\IdeaProjects\\Code_Sharing_Platform\\Code Sharing Platform\\task\\src\\resources\\templates";
     static Configuration  cfg;
 
     public FreemarkerConfiguration() {
@@ -16,7 +16,9 @@ public class FreemarkerConfiguration {
         try {
             cfg.setDirectoryForTemplateLoading(new File(TemplatesFolder));
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            final String dir = System.getProperty("user.dir");
+            System.out.println("Current DIR = " + dir);
+            System.out.println("Exception: " + ex.getMessage());
         }
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);

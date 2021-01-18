@@ -9,7 +9,7 @@
     <ul>
         <#list program as codesnippet>
             <p><span id="load_date">${codesnippet.dateTimeStr !"no date"}</span></p>
-            <pre id="code_snippet">${codesnippet.code !"code missing"}</pre>
+            <pre id="code_snippet"><code>${codesnippet.code !"code missing"}<code></pre>
         </#list>
     </ul>
 </body>

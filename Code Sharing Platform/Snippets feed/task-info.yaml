@@ -486,8 +486,9 @@ files:
   visible: true
   learner_created: true
 feedback_link: https://hyperskill.org/projects/130/stages/694/implement#comment
-status: Failed
+status: Solved
 feedback:
-  message: Cannot invoke &quot;String.length()&quot; because &quot;s&quot; is null
-  time: Wed, 30 Dec 2020 08:44:15 UTC
-record: -1
+  message: Congratulations! Continue on <a href="https://hyperskill.org/projects/130/stages/694/implement">JetBrains
+    Academy</a>
+  time: Mon, 04 Jan 2021 13:17:54 UTC
+record: 3

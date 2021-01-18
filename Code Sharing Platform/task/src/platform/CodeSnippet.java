@@ -9,8 +9,15 @@ import java.util.Map;
 import freemarker.template.Template;
 import org.json.*;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class CodeSnippet {
+
+    @Id
     int Id;
+
     String HTML;
     private String Code;
     private JSONObject JSON;

@@ -8,11 +8,15 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="openjdk-15" />
+        <option name="gradleJvm" value="#JAVA_INTERNAL" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Code Sharing Platform/task" />
+            <option value="$PROJECT_DIR$/Problems/An infinite numbers supplier" />
+            <option value="$PROJECT_DIR$/Problems/Apply function to all elements" />
+            <option value="$PROJECT_DIR$/Problems/Ternary operator" />
+            <option value="$PROJECT_DIR$/Problems/The address book" />
             <option value="$PROJECT_DIR$/Problems/The first day of a month or not" />
             <option value="$PROJECT_DIR$/util" />
           </set>

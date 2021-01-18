@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/405256/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Wed, 30 Dec 2020 07:44:19 UTC
+update_date: Mon, 18 Jan 2021 17:59:59 UTC
 stages:
 - id: 692
   step: 11027
@@ -13,7 +13,7 @@ stages:
   is_completed: true
 - id: 694
   step: 11029
-  is_completed: false
+  is_completed: true
 - id: 695
   step: 11030
   is_completed: false
@@ -44,6 +44,8 @@ topics:
     theory_id: 7255
   - title: Dynamic array
     theory_id: 5357
+  - title: IDE
+    theory_id: 10996
   - title: World Wide Web
     theory_id: 6633
   - title: HyperText Transfer Protocol
@@ -56,8 +58,6 @@ topics:
     theory_id: 7834
   - title: JSON
     theory_id: 6854
-  - title: IDE
-    theory_id: 10996
   - title: Introduction to Spring Boot
     theory_id: 7944
   - title: Write, compile, and run
@@ -86,12 +86,6 @@ topics:
     theory_id: 6339
   - title: Rest controller
     theory_id: 7015
-  - title: HTML basics
-    theory_id: 6434
-  - title: Tags and attributes
-    theory_id: 7536
-  - title: HTML page structure
-    theory_id: 6491
   - title: Introduction to Java
     theory_id: 3500
   - title: Basic literals
@@ -156,6 +150,12 @@ topics:
     theory_id: 3801
   - title: IDEA Basics
     theory_id: 5819
+  - title: HTML basics
+    theory_id: 6434
+  - title: Tags and attributes
+    theory_id: 7536
+  - title: HTML page structure
+    theory_id: 6491
   - title: Errors in programs
     theory_id: 3536
   - title: Defining classes

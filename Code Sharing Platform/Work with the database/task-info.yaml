@@ -467,6 +467,193 @@ files:
         }
     }
   learner_created: false
+- name: src/resources/static/XLMHttpRequest.js
+  visible: true
+  text: |2-
+     function send() {
+
+        let views = parseInt(document.getElementById("views_restriction").value);
+        if(views===0 || isNaN(views)){
+            views = -1;
+        }
+
+        let object = {
+            "code": document.getElementById("code_snippet").value,
+            "time": parseInt(document.getElementById("time_restriction").value),
+            "views": views
+        };
+        let json = JSON.stringify(object);
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", '/api/code/new', false)
+        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        xhr.send(json);
+
+        if (xhr.status == 200) {
+            alert("Success!");
+        }
+    }
+  learner_created: true
+- name: src/platform/CodeSnippet.java
+  visible: true
+  text: |+
+    package platform;
+
+    import java.io.StringWriter;
+    import java.time.LocalDateTime;
+    import java.time.format.DateTimeFormatter;
+    import java.util.HashMap;
+    import java.util.Map;
+
+    import freemarker.template.Template;
+    import org.json.*;
+
+    public class CodeSnippet {
+        int Id;
+        String HTML;
+        private String Code;
+        private JSONObject JSON;
+        private String DateTimeStr;
+        private LocalDateTime DateTime;
+
+        public CodeSnippet(String jsonString, int Id) {
+            String DATE_FORMATTER = "yyyy/MM/dd HH:mm:ss";
+            this.setDateTime(LocalDateTime.now());
+            this.setDateTimeStr(getDateTime().format(DateTimeFormatter.ofPattern(DATE_FORMATTER)));
+
+            JSONObject obj = new JSONObject(jsonString);
+            this.setCode(obj.getString("code"));
+            this.Id = Id;
+            this.HTML = makeHtml(this.getCode());
+            this.setJSON(makeJson(this.getCode()));
+        }
+
+        public LocalDateTime getDateTime() {
+            return DateTime;
+        }
+
+        public void setDateTime(LocalDateTime dateTime) {
+            DateTime = dateTime;
+        }
+
+        public JSONObject getJSON() {
+            return JSON;
+        }
+
+        public void setJSON(JSONObject JSON) {
+            this.JSON = JSON;
+        }
+
+        public String getDateTimeStr() {
+            return DateTimeStr;
+        }
+
+        public void setDateTimeStr(String dateTimeStr) {
+            DateTimeStr = dateTimeStr;
+        }
+
+        public String getCode() {
+            return Code;
+        }
+
+        public void setCode(String code) {
+            Code = code;
+        }
+
+        private String makeHtml(String code) {
+            StringWriter out = new StringWriter();
+            try {
+                Map root = new HashMap();
+                root.put("code", code);
+                root.put("date", getDateTimeStr());
+                Template template = FreemarkerConfiguration.cfg.getTemplate("snippet_page.ftlh");
+                template.process(root, out);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+           return out.getBuffer().toString();
+        }
+
+        private JSONObject makeJson(String code){
+            JSONObject obj = new JSONObject();
+            obj.put("code", code);
+            obj.put("date", getDateTimeStr());
+            return obj;
+        }
+
+
+    }
+
+  learner_created: true
+- name: src/resources/templates/snippet_page_latest.ftlh
+  visible: true
+  learner_created: true
+- name: src/platform/FreemarkerConfiguration.java
+  visible: true
+  text: |
+    package platform;
+
+    import freemarker.template.Configuration;
+    import freemarker.template.TemplateExceptionHandler;
+    import org.springframework.stereotype.Component;
+    import java.io.File;
+
+    @Component
+    public class FreemarkerConfiguration {
+        public String TemplatesFolder = "C:\\Users\\Ivan\\IdeaProjects\\Code_Sharing_Platform\\Code Sharing Platform\\task\\src\\resources\\templates";
+        static Configuration  cfg;
+
+        public FreemarkerConfiguration() {
+            //Freemarker cfg
+            cfg = new Configuration(Configuration.VERSION_2_3_29);
+            try {
+                cfg.setDirectoryForTemplateLoading(new File(TemplatesFolder));
+            } catch (Exception ex) {
+                final String dir = System.getProperty("user.dir");
+                System.out.println("Current DIR = " + dir);
+                System.out.println("Exception: " + ex.getMessage());
+            }
+            cfg.setDefaultEncoding("UTF-8");
+            cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+            cfg.setLogTemplateExceptions(false);
+            cfg.setWrapUncheckedExceptions(true);
+            cfg.setFallbackOnNullLoopVariable(false);
+        }
+
+        public Configuration getCfg(){
+            return cfg;
+        }
+
+    }
+  learner_created: true
+- name: src/resources/static/style.css
+  visible: true
+  text: |-
+    #code_snippet
+    {
+        width:min-content;
+        font: 0.8em sans-serif;
+        background-color: lightgrey;
+        border: gray;
+        border-style:solid;
+        border-width: 0.5px;
+        margin-top: 5px;
+        margin-left: 20px;
+        padding: 10px 20px 10px 10px;
+    }
+    #load_date
+    {
+        padding-left: 10px;
+        color:green;
+        font: 0.9em sans-serif;
+    }
+  learner_created: true
+- name: src/resources/templates/snippet_page.ftlh
+  visible: true
+  learner_created: true
+- name: src/resources/templates/code_new.ftlh
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/130/stages/695/implement#comment
 status: Unchecked
 record: -1

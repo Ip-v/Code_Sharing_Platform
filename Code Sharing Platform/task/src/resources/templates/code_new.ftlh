@@ -3,7 +3,10 @@
         <title>Create</title>
     </head>
     <script type="text/javascript" src="/XLMHttpRequest.js"></script>
-
+    <link rel="stylesheet"
+           target="_blank" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/default.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
     <body>
         <style>
             #code_snippet {width: 600; font: 1em sans-serif; background-color: lightgrey; border: gray; border-style: initial;}
@@ -27,7 +30,7 @@
                 }
             }
         </script>
-        <textarea id="code_snippet"> ... </textarea>
+        <textarea id="code_snippet"><code> ... </code></textarea>
         <button id="send_snippet" type="submit" onclick="send()">Submit</button>
     </body>
 </html>
