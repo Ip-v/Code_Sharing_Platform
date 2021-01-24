@@ -654,6 +654,12 @@ files:
 - name: src/resources/templates/code_new.ftlh
   visible: true
   learner_created: true
+- name: src/platform/CodeRepository.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/130/stages/695/implement#comment
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Sun, 24 Jan 2021 08:00:17 UTC
+record: 4

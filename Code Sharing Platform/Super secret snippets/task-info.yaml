@@ -631,6 +631,200 @@ files:
         }
     }
   learner_created: false
+- name: src/resources/static/XLMHttpRequest.js
+  visible: true
+  text: |2-
+     function send() {
+
+        let views = parseInt(document.getElementById("views_restriction").value);
+        if(views===0 || isNaN(views)){
+            views = -1;
+        }
+
+        let object = {
+            "code": document.getElementById("code_snippet").value,
+            "time": parseInt(document.getElementById("time_restriction").value),
+            "views": views
+        };
+        let json = JSON.stringify(object);
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", '/api/code/new', false)
+        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        xhr.send(json);
+
+        if (xhr.status == 200) {
+            alert("Success!");
+        }
+    }
+  learner_created: true
+- name: src/platform/CodeRepository.java
+  visible: true
+  text: |
+    package platform;
+
+    import org.springframework.data.jpa.repository.Query;
+    import org.springframework.data.repository.CrudRepository;
+    import org.springframework.stereotype.Repository;
+
+    import java.util.ArrayList;
+    import java.util.List;
+
+
+    @Repository
+    public interface CodeRepository extends CrudRepository<CodeSnippet, Integer> {
+      ArrayList<CodeSnippet> findTop10ByOrderByDateTimeDesc();
+      // select top 10 *  from (select * from CODE_SNIPPET order by Date_Time desc)
+    //  @Query("SELECT TOP 10 u FROM CodeSnippet u")
+    //  List<CodeSnippet> get10LatestSnippets();
+    }
+  learner_created: true
+- name: src/platform/CodeSnippet.java
+  visible: true
+  text: |+
+    package platform;
+
+    import java.time.LocalDateTime;
+    import java.time.format.DateTimeFormatter;
+
+    import org.json.*;
+
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
+
+
+    @Entity
+    public class CodeSnippet {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        Integer id;
+
+        private String code;
+        private String dateTimeStr;
+        private LocalDateTime dateTime;
+
+        public CodeSnippet() {}
+
+        public CodeSnippet(String jsonString) {
+            String DATE_FORMATTER = "yyyy/MM/dd HH:mm:ss";
+            this.setDateTime(LocalDateTime.now());
+            this.setDateTimeStr(getDateTime().format(DateTimeFormatter.ofPattern(DATE_FORMATTER)));
+
+            JSONObject obj = new JSONObject(jsonString);
+            this.setCode(obj.getString("code"));
+        }
+
+        public LocalDateTime getDateTime() {
+            return dateTime;
+        }
+
+        public void setDateTime(LocalDateTime dateTime) {
+            this.dateTime = dateTime;
+        }
+
+        public JSONObject getJSON() {
+            return makeJson(this.getCode());
+        }
+
+        public String getDateTimeStr() {
+            return dateTimeStr;
+        }
+
+        public void setDateTimeStr(String dateTimeStr) {
+            this.dateTimeStr = dateTimeStr;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        private JSONObject makeJson(String code){
+            JSONObject obj = new JSONObject();
+            obj.put("code", code);
+            obj.put("date", getDateTimeStr());
+            return obj;
+        }
+
+
+    }
+
+  learner_created: true
+- name: src/resources/templates/snippet_page_latest.ftlh
+  visible: true
+  learner_created: true
+- name: src/platform/FreemarkerConfiguration.java
+  visible: true
+  text: |
+    package platform;
+
+    import freemarker.template.Configuration;
+    import freemarker.template.TemplateExceptionHandler;
+    import org.springframework.stereotype.Component;
+    import java.io.File;
+
+    @Component
+    public class FreemarkerConfiguration {
+        public String TemplatesFolder = "C:\\Users\\Ivan\\IdeaProjects\\Code_Sharing_Platform\\Code Sharing Platform\\task\\src\\resources\\templates";
+        static Configuration  cfg;
+
+        public FreemarkerConfiguration() {
+            //Freemarker cfg
+            cfg = new Configuration(Configuration.VERSION_2_3_29);
+            try {
+                cfg.setDirectoryForTemplateLoading(new File(TemplatesFolder));
+            } catch (Exception ex) {
+                final String dir = System.getProperty("user.dir");
+                System.out.println("Current DIR = " + dir);
+                System.out.println("Exception: " + ex.getMessage());
+            }
+            cfg.setDefaultEncoding("UTF-8");
+            cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+            cfg.setLogTemplateExceptions(false);
+            cfg.setWrapUncheckedExceptions(true);
+            cfg.setFallbackOnNullLoopVariable(false);
+        }
+
+        public Configuration getCfg(){
+            return cfg;
+        }
+
+    }
+  learner_created: true
+- name: src/resources/static/style.css
+  visible: true
+  text: |-
+    #code_snippet
+    {
+        width:min-content;
+        font: 0.8em sans-serif;
+        background-color: lightgrey;
+        border: gray;
+        border-style:solid;
+        border-width: 0.5px;
+        margin-top: 5px;
+        margin-left: 20px;
+        padding: 10px 20px 10px 10px;
+    }
+    #load_date
+    {
+        padding-left: 10px;
+        color:green;
+        font: 0.9em sans-serif;
+    }
+  learner_created: true
+- name: src/resources/templates/snippet_page.ftlh
+  visible: true
+  learner_created: true
+- name: src/resources/templates/code_new.ftlh
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/130/stages/696/implement#comment
 status: Unchecked
 record: -1

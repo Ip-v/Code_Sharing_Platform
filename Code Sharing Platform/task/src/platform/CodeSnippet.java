@@ -1,85 +1,64 @@
 package platform;
 
-import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 
-import freemarker.template.Template;
 import org.json.*;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 
 @Entity
 public class CodeSnippet {
 
     @Id
-    int Id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Integer id;
 
-    String HTML;
-    private String Code;
-    private JSONObject JSON;
-    private String DateTimeStr;
-    private LocalDateTime DateTime;
+    private String code;
+    private String dateTimeStr;
+    private LocalDateTime dateTime;
 
-    public CodeSnippet(String jsonString, int Id) {
+    public CodeSnippet() {}
+
+    public CodeSnippet(String jsonString) {
         String DATE_FORMATTER = "yyyy/MM/dd HH:mm:ss";
         this.setDateTime(LocalDateTime.now());
         this.setDateTimeStr(getDateTime().format(DateTimeFormatter.ofPattern(DATE_FORMATTER)));
 
         JSONObject obj = new JSONObject(jsonString);
         this.setCode(obj.getString("code"));
-        this.Id = Id;
-        this.HTML = makeHtml(this.getCode());
-        this.setJSON(makeJson(this.getCode()));
     }
 
     public LocalDateTime getDateTime() {
-        return DateTime;
+        return dateTime;
     }
 
     public void setDateTime(LocalDateTime dateTime) {
-        DateTime = dateTime;
+        this.dateTime = dateTime;
     }
 
     public JSONObject getJSON() {
-        return JSON;
-    }
-
-    public void setJSON(JSONObject JSON) {
-        this.JSON = JSON;
+        return makeJson(this.getCode());
     }
 
     public String getDateTimeStr() {
-        return DateTimeStr;
+        return dateTimeStr;
     }
 
     public void setDateTimeStr(String dateTimeStr) {
-        DateTimeStr = dateTimeStr;
+        this.dateTimeStr = dateTimeStr;
     }
 
     public String getCode() {
-        return Code;
+        return code;
     }
 
     public void setCode(String code) {
-        Code = code;
-    }
-
-    private String makeHtml(String code) {
-        StringWriter out = new StringWriter();
-        try {
-            Map root = new HashMap();
-            root.put("code", code);
-            root.put("date", getDateTimeStr());
-            Template template = FreemarkerConfiguration.cfg.getTemplate("snippet_page.ftlh");
-            template.process(root, out);
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-       return out.getBuffer().toString();
+        this.code = code;
     }
 
     private JSONObject makeJson(String code){
