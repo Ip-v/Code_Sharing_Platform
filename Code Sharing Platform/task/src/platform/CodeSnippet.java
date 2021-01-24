@@ -2,13 +2,12 @@ package platform;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 
 import org.json.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 @Entity
@@ -16,21 +15,38 @@ public class CodeSnippet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer id;
+    @Column(columnDefinition = "VARCHAR(255)", insertable = false, updatable = false)
+    UUID id;
 
     private String code;
     private String dateTimeStr;
     private LocalDateTime dateTime;
+    private LocalDateTime time;
+    private Long views;
+    private boolean secret;
 
-    public CodeSnippet() {}
+    public Long getTime() {
+        Long out = LocalDateTime.now().until(time, ChronoUnit.SECONDS);
+        return out > 0 ? out : 0;
+    }
 
-    public CodeSnippet(String jsonString) {
-        String DATE_FORMATTER = "yyyy/MM/dd HH:mm:ss";
-        this.setDateTime(LocalDateTime.now());
-        this.setDateTimeStr(getDateTime().format(DateTimeFormatter.ofPattern(DATE_FORMATTER)));
+    public void setTime(Long time) {
+        this.time = dateTime.plusSeconds(time);
+    }
 
-        JSONObject obj = new JSONObject(jsonString);
-        this.setCode(obj.getString("code"));
+    public boolean isSecret() {
+        return secret;
+    }
+
+    public Long getViews() {
+        return views;
+    }
+
+    public void setViews(Long views) {
+        this.views = views;
+    }
+    public void minusView() {
+        views--;
     }
 
     public LocalDateTime getDateTime() {
@@ -61,10 +77,24 @@ public class CodeSnippet {
         this.code = code;
     }
 
+    public CodeSnippet() {}
+
+    public CodeSnippet(String jsonString) {
+        this.setDateTime(LocalDateTime.now());
+        this.setDateTimeStr(getDateTime().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")));
+        JSONObject obj = new JSONObject(jsonString);
+        this.setCode(obj.getString("code"));
+        this.setTime(obj.getLong("time"));
+        this.setViews(obj.getLong("views"));
+        this.secret = obj.getLong("time") > 0 || getViews() > 0;
+    }
+
     private JSONObject makeJson(String code){
         JSONObject obj = new JSONObject();
         obj.put("code", code);
         obj.put("date", getDateTimeStr());
+        obj.put("views", getViews());
+        obj.put("time", getTime());
         return obj;
     }
 

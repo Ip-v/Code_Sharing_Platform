@@ -30,7 +30,9 @@
                 }
             }
         </script>
-        <textarea id="code_snippet"><code> ... </code></textarea>
+        <textarea id="code_snippet">//write your code here</textarea>
+        <br><p>Time restrictions   <input id="time_restriction" type="text"/></p>
+        <p>Views restrictions   <input id="views_restriction" type="text"/></p>
         <button id="send_snippet" type="submit" onclick="send()">Submit</button>
     </body>
 </html>
